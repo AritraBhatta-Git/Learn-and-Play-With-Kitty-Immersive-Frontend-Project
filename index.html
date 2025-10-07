@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learn and Play With Kitty</title>
+<style>
+  body {
+    margin: 0; padding: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fed6e3, #fecfe7, #fda4bd, #ff83aa);
+    color: #9e2f5f;
+    overflow-x: hidden;
+    position: relative;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    z-index: -1;
+    background: linear-gradient(270deg, #ffccdd, #ff9ab8, #ffa1c1, #ffd9e7, #ffccdd);
+    background-size: 1000% 1000%;
+    animation: bgShift 30s ease infinite;
+    opacity: 0.6;
+  }
+  @keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .float-circle {
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: floatAnim 10s ease-in-out infinite, rotateCircle 25s linear infinite;
+    pointer-events: none;
+  }
+  .float-circle:nth-child(1) {
+    width: 180px; height: 180px; background: #ffc0cb80;
+    top: 18%; left: 12%;
+    animation-delay: 0s, 0s;
+    transform-origin: center;
+  }
+  .float-circle:nth-child(2) {
+    width: 110px; height: 110px; background: #ff69b480;
+    top: 62%; left: 37%;
+    animation-delay: 3s, 5s;
+    transform-origin: center;
+  }
+  .float-circle:nth-child(3) {
+    width: 130px; height: 130px; background: #ffb6c180;
+    top: 38%; right: 18%;
+    animation-delay: 6s, 10s;
+    transform-origin: center;
+  }
+  @keyframes floatAnim {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(-45px); opacity: 0.85; }
+  }
+  @keyframes rotateCircle {
+    0% { transform: rotate(0deg);}
+    100% { transform: rotate(360deg);}
+  }
+  .content {
+    max-width: 680px;
+    margin: 6rem auto 7rem auto;
+    padding: 0 1rem;
+    text-align: center;
+  }
+  h1 {
+    font-size: 3.8rem;
+    margin-bottom: 0.2rem;
+    color: #b63371;
+    text-shadow: 2px 2px 8px #ff84a9;
+    font-weight: 900;
+    animation: floatText 4s ease-in-out infinite, shimmer 8s linear infinite;
+    background: linear-gradient(
+      to right,
+      #442121 0%,
+      #ffcce1 20%,
+      #1a0808 40%,
+      #ed0202 60%,
+      #fff4f4 80%,
+      #ffcce1 100%
+    );
+    background-size: 1000px 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  h2 {
+    font-size: 2rem;
+    margin-top: 0;
+    margin-bottom: 2rem;
+    color: #a32d65;
+    line-height: 1.3;
+    text-shadow: 1px 1px 6px #ff95b7;
+    animation: floatText 4.3s ease-in-out infinite;
+    animation-delay: 0.3s;
+  }
+  p {
+    font-size: 1.4rem;
+    margin-bottom: 2rem;
+    color: #85285f;
+    line-height: 1.6;
+    font-weight: 600;
+    text-shadow: 0 1px 3px #ff7fa6;
+    animation: floatText 6s ease-in-out infinite;
+    animation-delay: 0.6s;
+  }
+  a.button, button.dev-btn {
+    display: inline-block;
+    background: linear-gradient(135deg, #e673a3, #bd2e6d);
+    color: white;
+    font-weight: 900;
+    font-size: 1.5rem;
+    padding: 1.2rem 2.5rem;
+    border-radius: 28px;
+    box-shadow: 0 10px 22px #b22a6a;
+    text-decoration: none;
+    border: none;
+    margin: 0.8rem 0.5rem 0 0.5rem;
+    transition: background 0.3s, box-shadow 0.3s, transform 0.3s;
+    animation: floatText 5s ease-in-out infinite, pulseButton 3s ease-in-out infinite;
+    animation-delay: 1.1s, 0s;
+    cursor: pointer;
+  }
+  a.button:hover, button.dev-btn:hover {
+    background: linear-gradient(135deg, #bd2e6d, #972454);
+    box-shadow: 0 14px 32px #7d1c45;
+    transform: scale(1.07);
+  }
+  @keyframes floatText {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-18px); }
+  }
+  @keyframes pulseButton {
+    0%, 100% { box-shadow: 0 10px 22px #b22a6a; }
+    50% { box-shadow: 0 15px 30px #d63a82; }
+  }
+  @keyframes shimmer {
+    0% {
+      background-position: -500px 0;
+    }
+    100% {
+      background-position: 500px 0;
+    }
+  }
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #b6337199;
+    color: #fff4f9;
+    font-size: 1.1rem;
+    font-weight: 600;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-shadow: 1px 1px 3px #6d2247;
+    user-select: none;
+  }
+
+ 
+  .modal-backdrop {
+    display: none;
+    position: fixed;
+    z-index: 998;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: rgba(212, 130, 180, 0.6);
+    transition: opacity 0.3s;
+  }
+  .modal-backdrop.active {
+    display: block;
+  }
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 999;
+    left: 0; top: 0; right: 0; bottom: 0;
+    justify-content: center; align-items: center;
+  }
+  .modal.active {
+    display: flex;
+  }
+  .modal-content {
+    background: linear-gradient(118deg, #fff0f8 60%, #fca1c2 100%);
+    border-radius: 27px;
+    box-shadow: 0 4px 42px #e094c1ab;
+    max-width: 390px;
+    width: 90%;
+    padding: 2.2rem 1.2rem 2rem 1.2rem;
+    text-align: center;
+    position: relative;
+    animation: floatText 2.5s ease-in-out;
+    font-size: 1.1rem;
+    color: #a02657;
+  }
+  .modal-content h3 {
+    font-size: 2.1rem;
+    margin-top: 0.3rem;
+    margin-bottom: 1.2rem;
+    color: #b63371;
+    text-shadow: 2px 2px 8px #ff84a9;
+  }
+  .modal-content p {
+    font-size: 1.1rem;
+    margin: 1rem 0 0.7rem 0;
+    color: #7f245e;
+    font-weight: normal;
+    text-shadow: 0 1px 3px #ffd5e2;
+  }
+  .close-btn {
+    position: absolute; top: 11px; right: 17px;
+    background: linear-gradient(118deg, #fdbfcb 60%, #fca1c2 100%);
+    border: none;
+    font-size: 1.8rem;
+    border-radius: 50%;
+    width: 32px; height: 32px;
+    cursor: pointer;
+    box-shadow: 0 2px 9px #f7a7c0bb;
+    color: #be256d;
+    transition: background 0.2s, transform 0.2s;
+    font-family: inherit;
+  }
+  .close-btn:hover {
+    background: #e07e92;
+    color: #fff;
+    transform: scale(1.08);
+  }
+  @media (max-width: 520px) {
+    .content { margin: 4.2rem auto 6.3rem auto; }
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.1rem; }
+    p { font-size: 1rem; }
+    .modal-content { font-size: 1rem; }
+  }
+</style>
+</head>
+<body>
+  <div class="float-circle"></div>
+  <div class="float-circle"></div>
+  <div class="float-circle"></div>
+
+  <div class="content">
+    <h1>Welcome To Learn and Play with Kitty</h1>
+    <h2>Hello Pre-school Kids!</h2>
+    <p>
+      Step into a magical world filled with pink sparkles, joyful tunes, and the cutest adventures!
+      Hello Kitty invites you to explore the alphabet, master numbers with fun activities, hear enchanting stories, and play delightful games crafted just for little learners.
+    </p>
+    <p>
+      Our journey together will spark imagination with bright colors and friendly characters. Learn your ABCs, count your way to ten, and let your creativity bloom in a safe, joyful wonderland.
+    </p>
+    <p>
+      Every activity is designed to be engaging and educational, nurturing curiosity and confidence while having tons of fun! Ready to start this amazing adventure with Hello Kitty by your side?
+    </p>
+    <a href="./letsbegin.html" class="button">Let's Begin Our Journey</a>
+    <button class="dev-btn" onclick="showModal()">Know More About the Developer</button>
+  </div>
+
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <div class="modal" id="modalDev">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()" title="Close">&times;</button>
+      <h3>About the Developer</h3>
+      <p><strong>Aritra Bhattacharya</strong></p>
+      <p>
+        Passionate about frontend development and UI/UX, Aritra creates creative, animated, and interactive web projects for education and fun.<br>
+        Skilled in HTML5, CSS3, JavaScript, and animation, with experience in playful web applications for kids.<br>
+        Connect and collaborate for more beautiful, immersive experiences and creative learning projects!
+      </p>
+      <p>
+        <a href="https://www.linkedin.com/in/aritra-bhattacharya-84b03b24b/overlay/about-this-profile/?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base%3BmOOu9Nf9Q5akEXttr2sFdg%3D%3D" target="_blank" style="color: #ef2347; text-decoration: underline; font-weight: 600;">Connect on LinkedIn</a>
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    Developed by Aritra Bhattacharya | All Rights Reserved &copy; 2025
+  </footer>
+<script>
+function showModal() {
+  document.getElementById('modalDev').classList.add('active');
+  document.getElementById('modalBackdrop').classList.add('active');
+}
+function closeModal() {
+  document.getElementById('modalDev').classList.remove('active');
+  document.getElementById('modalBackdrop').classList.remove('active');
+}
+window.addEventListener('keydown', function(e){
+  if ((e.key === "Escape" || e.key === "Esc") && document.getElementById('modalDev').classList.contains('active')) {
+    closeModal();
+  }
+});
+document.getElementById('modalBackdrop').onclick = closeModal;
+</script>
+</body>
+</html>

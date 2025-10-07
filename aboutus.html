@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us | Hello Kitty Preschool</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body {
+      margin: 0; padding: 0;
+      min-height: 100vh;
+      font-family: 'Comic Sans MS', 'Baloo 2', cursive, sans-serif;
+      background: linear-gradient(135deg, #f8e9ee 0%, #ffe2f1 100%);
+      overflow-x: hidden;
+    }
+    .hello-kitty-anim {
+      position: fixed;
+      bottom: 5vh; left: 50%;
+      transform: translateX(-50%);
+      z-index: 10;
+      width: 136px; height: 130px;
+      animation: kitty-bounce 2.7s cubic-bezier(.43,.74,.62,1.17) infinite;
+      will-change: transform;
+    }
+    @keyframes kitty-bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0) scale(1); }
+      45% { transform: translateX(-50%) translateY(-18px) scale(1.1); }
+      70% { transform: translateX(-50%) translateY(0) scale(1); }
+    }
+    .confetti-star {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: .72;
+      z-index: 1;
+      animation: confetti-float 12s linear infinite;
+      box-shadow: 0 0 12px #ffd0e8; 
+    }
+    @keyframes confetti-float {
+      0%   { transform: translateY(0);}
+      100% { transform: translateY(-72vh);}
+    }
+    .about-container {
+      background: rgba(255,255,255,0.97);
+      max-width: 790px;
+      margin: 70px auto 90px auto;
+      border-radius: 36px;
+      box-shadow: 0 9px 32px #f8bada88, 0 1px 9px #fdb0dd33;
+      padding: 44px 28px 38px 28px;
+      position: relative;
+      z-index: 3;
+      text-align: center;
+    }
+    .about-container h1 {
+      color: #ec55a3;
+      font-size: 2.3em;
+      letter-spacing: 2px;
+      text-shadow: 0 3px #fabece, 0 1px 11px #ffb2da;
+      margin: 0 0 13px 0;
+    }
+    .about-container h2 {
+      color: #ea2986;
+      font-size: 1.22em;
+      margin-bottom: 16px;
+      font-weight: bold;
+      letter-spacing: 1.2px;
+      text-shadow: 0 2px 4px #fff0fa;
+    }
+    .about-text {
+      font-size: 1.11em;
+      color: #a03c78;
+      padding: 14px 10px 22px 10px;
+      background: #fff6fc;
+      border-radius: 16px;
+      box-shadow: 0 2px 13px #fdd2f1;
+      margin-bottom: 28px;
+      text-align: center;
+      line-height: 1.64;
+      letter-spacing: 0.02em;
+      max-width: 660px;
+      margin-left: auto; margin-right: auto;
+    }
+    .about-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 26px;
+      margin-top: 23px;
+      margin-bottom: 30px;
+    }
+    .about-card {
+      background: linear-gradient(130deg,#fff0fd 80%,#fed0ff 100%);
+      border-radius: 18px;
+      box-shadow: 0 7px 31px #ef7ab888;
+      padding: 25px 22px 19px 22px;
+      min-width: 252px; max-width: 285px;
+      flex: 1 1 220px;
+      position: relative;
+      text-align: center;
+      transition: transform .23s;
+      z-index: 2;
+    }
+    .about-card:hover {
+      transform: scale(1.04) rotateY(4deg);
+      box-shadow: 0 15px 46px #f79edc;
+    }
+    .about-card img {
+      width: 56px;
+      margin-bottom: 11px;
+      border-radius: 12px;
+      box-shadow: 0 0 8px #fbb3e7;
+      background: #fff;
+    }
+    .about-card .card-title {
+      color: #ef5eb5;
+      font-size: 1.17em;
+      font-weight: bold;
+      margin: 0 0 6px 0;
+    }
+    .about-card .card-desc {
+      font-size: 1.02em;
+      color: #b858ac;
+      line-height: 1.51;
+      margin-bottom: 0;
+    }
+    .creator-credit {
+      font-size: 1.12em;
+      margin: 23px auto 0 auto;
+      background: linear-gradient(120deg, #faf3ff 70%, #ffcaea 100%);
+      border-radius: 14px;
+      max-width: 500px;
+      color: #97346f;
+      padding: 15px 13px 12px 13px;
+      box-shadow: 0 1px 11px #ffd0e766;
+      font-weight: bold;
+    }
+    .creator-credit strong {
+      color: #ed399e;
+      font-size: 1.13em;
+      font-weight: 900;
+      letter-spacing: .8px;
+    }
+    .creator-credit .badge {
+      margin-left: 7px;
+      border-radius: 9px;
+      background: #fce5ff;
+      color: #e62974;
+      font-size: .96em;
+      padding: 2px 11px;
+      font-weight: bold;
+      vertical-align: middle;
+      text-shadow: 0 1px 9px #ffcbee55;
+    }
+    .glow-btn {
+      margin-top: 17px;
+      background: linear-gradient(94deg,#fc6bcf 65%,#ffd6f7 100%);
+      color: #fff;
+      font-family: inherit;
+      font-size: 1.13em;
+      padding: 13px 38px;
+      border-radius: 18px;
+      outline: none; border: none;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      box-shadow: 0 3px 19px #ffaddd99, 0 1px 16px #ee7fcf77;
+      cursor: pointer;
+      transition: background .19s, box-shadow .23s, transform .13s;
+      animation: btn-glow 2.2s infinite alternate;
+    }
+    .glow-btn:hover {
+      background: linear-gradient(95deg,#e83b8c 65%,#fedeff 100%);
+      color: #ffd7f7;
+      transform: scale(1.07);
+    }
+    @keyframes btn-glow {
+      0% { box-shadow: 0 3px 11px #ffaddd99, 0 1px 16px #ee7fcf77; }
+      100% { box-shadow: 0 6px 38px #fa9ad999, 0 4px 30px #f5aeea77; }
+    }
+    footer {
+      text-align: center;
+      font-size: 1.05em;
+      margin: 38px 0 10px 0;
+      color: #ea42a7;
+      font-family: inherit;
+    }
+    
+    @media (max-width: 600px) {
+      .about-container {
+        padding: 18px 3vw 22px 3vw;
+        margin-top: 23vw;
+      }
+      .about-cards { gap: 12px; }
+      .about-card { min-width: 125px; padding: 14px 9px; }
+      .hello-kitty-anim { width: 92px; height: 90px;}
+      .creator-credit { font-size: 1em; padding: 10px 7px;}
+    }
+  </style>
+</head>
+<body>
+ 
+  <svg class="hello-kitty-anim" viewBox="0 0 52 50">
+    <ellipse cx="26" cy="28" rx="23" ry="18" fill="#fff"/>
+    <ellipse cx="12" cy="12" rx="9" ry="8" fill="#fff"/>
+    <ellipse cx="40" cy="12" rx="9" ry="8" fill="#fff"/>
+    <ellipse cx="7" cy="5" rx="2" ry="3" fill="#222"/>
+    <ellipse cx="45" cy="5" rx="2" ry="3" fill="#222"/>
+    <ellipse cx="26" cy="29" rx="15" ry="12" fill="#fff"/>
+    <ellipse cx="18" cy="28" rx="2" ry="4" fill="#000"/>
+    <ellipse cx="34" cy="28" rx="2" ry="4" fill="#000"/>
+    <ellipse cx="26" cy="35" rx="2.7" ry="1.2" fill="#e346e3"/>
+    <circle cx="17.5" cy="17" r="2.3" fill="#ff69b4"/>
+    <circle cx="34.5" cy="17" r="2.3" fill="#ff69b4"/>
+  </svg>
+ 
+  <div id="confetti"></div>
+  <div class="about-container">
+    <h1>About Us</h1>
+    <h2>Meet Hello Kitty and Friends - Learning Is Supercute!</h2>
+    <div class="about-text">
+      Welcome to my very first frontend development project—a playful Hello Kitty Preschool for all kids, parents, and teachers!<br><br>
+      Created and coded from scratch by <strong>Aritra Bhattacharya</strong>, this site is a joyful experiment in web animation, interactivity, and kid-friendly design.<br><br>
+      Here, bright learners discover alphabets, numbers, wonderful stories, and fun games—all made with love and curiosity as a personal project.<br><br>
+      Thank you for visiting and being part of this journey into web creation!
+      <span style="font-size:1.6em;display:block;padding-top:0.3em;">♡</span>
+    </div>
+    <div class="about-cards">
+      <div class="about-card">
+        <img src="hello-kitty-wallpaper.jpg.jpg" alt="Hello Kitty Icon">
+        <div class="card-title">Supercute Lessons</div>
+        <div class="card-desc">Animated alphabets, numbers, and shapes—play and learn with Kitty magic and sound!</div>
+      </div>
+      <div class="about-card">
+        <img src="classroom.jpg" alt="Kitty Classroom">
+        <div class="card-title">Fun Kitty Games</div>
+        <div class="card-desc">From puzzles to color match, enjoy playful challenges and earn adorable rewards.</div>
+      </div>
+      <div class="about-card">
+        <img src="alphabets.jpg" alt="Kitty Alphabet">
+        <div class="card-title">Storytime & Activities</div>
+        <div class="card-desc">Warm stories, sing-alongs, and easy activities fill every adventure.</div>
+      </div>
+    </div>
+    <div class="creator-credit">
+      Developed by <strong>Aritra Bhattacharya</strong>
+      <span class="badge">Kids Learning frontend Proj with Hello-Kitty!</span>
+      <br />For curious minds, sweet smiles, and a magical start in coding.
+    </div>
+    <button class="glow-btn" onclick="window.location.href='letsbegin.html'">Let's Begin the Adventure Again!</button>
+  </div>
+  <footer>
+    &copy; 2025 Hello Kitty Preschool &middot; Crafted with love by Aritra Bhattacharya.
+  </footer>
+  <script>
+   
+    const colors = ["#ffe6f2", "#ff69b4", "#fff7b6", "#e988d6", "#fdc9ed", "#fffde8", "#fadcea", "#ffc0cb"];
+    for(let i=0;i<31;i++){
+      let d=document.createElement('div');
+      d.className='confetti-star';
+      let size=Math.random()*17+14;
+      d.style.width=d.style.height=size+"px";
+      d.style.left=(Math.random()*100)+"vw";
+      d.style.top=(Math.random()*90+2)+"vh";
+      d.style.background=colors[Math.floor(Math.random()*colors.length)];
+      d.style.animationDuration=(8+Math.random()*7)+'s';
+      d.style.opacity=Math.random()*0.4+0.58;
+      document.getElementById('confetti').appendChild(d);
+    }
+  </script>
+</body>
+<style>
+  
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #b6337199;
+    color: #fff4f9;
+    font-size: 1.1rem;
+    font-weight: 600;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-shadow: 1px 1px 3px #6d2247;
+    user-select: none;
+  }
+</style>
+<footer>
+    Developed by Aritra Bhattacharya | All Rights Reserved &copy; 2025
+  </footer>
+</html>

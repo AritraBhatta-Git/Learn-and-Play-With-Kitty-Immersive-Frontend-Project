@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Hello Kitty Fun Games!</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  body {
+    margin:0; background: linear-gradient(135deg, #f8dbea 0%, #ff66b2 100%);
+    font-family:'Comic Sans MS', cursive, sans-serif;
+    overflow-x:hidden; min-height:100vh; color:#fff;
+    user-select:none;
+  }
+  header {
+    text-align:center; padding:30px 10px 10px 10px;
+    color:#a81649; font-size:2.8em; font-weight:bold;
+    text-shadow:0 0 15px #ff2a73,0 0 30px #ff66b2;
+    letter-spacing:3px;
+  }
+  nav {
+    text-align:center; margin-top:10px; margin-bottom:28px;
+    background:#d82a68; border-radius:12px; box-shadow: 0 0 30px #ff66b2aa;
+    user-select:none;
+  }
+  nav a {
+    display:inline-block; padding:12px 18px;
+    color:#fff; font-weight:700; text-decoration:none;
+    font-size:1.15em; text-shadow:0 0 3px #b10c48;
+    transition: background 0.25s ease;
+  }
+  nav a:hover {
+    background:#ff4ca8; border-radius:8px;
+    box-shadow:0 0 12px #ff3b8c;
+  }
+  .kitty-3d {
+    position:absolute; left:50%; top:130px;
+    width:180px; height:200px;
+    transform-style:preserve-3d;
+    transform-origin:center center;
+    z-index:15;
+    animation:kittyFloatDeep 6s ease-in-out infinite;
+    cursor:pointer;
+  }
+  @keyframes kittyFloatDeep {
+    0%,100% {transform:translateX(-50%) translateY(0) rotateY(0deg) rotateX(0deg) scale(1);
+      filter:drop-shadow(0 0 15px #ff66b2);}
+    50% {transform:translateX(-50%) translateY(-40px) rotateY(25deg) rotateX(15deg) scale(1.05);
+      filter:drop-shadow(0 0 25px #ff2a73);}
+  }
+  .kitty-3d img {
+    width: 100%;
+    filter: drop-shadow(0 0 25px #ff66b2);
+    transition: transform 0.3s ease;
+    border-radius:16px;
+  }
+  .kitty-3d img:hover {
+    filter: drop-shadow(0 0 40px #ff1493);
+    transform: scale(1.1);
+  }
+  .kitty-float {
+    position:absolute; width:100px; height:100px;
+    pointer-events:none; opacity:0.75;
+    filter: drop-shadow(0 0 15px #cf1371);
+    animation:floatAnimDeep 9s ease-in-out infinite;
+    will-change:transform;
+    border-radius:20px;
+  }
+  .kitty-float:nth-child(2) {left:4vw; top:8vh; animation-delay:0s;}
+  .kitty-float:nth-child(3) {left:85vw; top:25vh; animation-delay:3s;}
+  .kitty-float:nth-child(4) {left:28vw; top:65vh; animation-delay:5.5s;}
+  .kitty-float:nth-child(5) {left:62vw; top:55vh; animation-delay:7.7s;}
+  .kitty-float:nth-child(6) {left:15vw; top:50vh; animation-delay:1.5s;}
+  .kitty-float:nth-child(7) {left:75vw; top:12vh; animation-delay:4.2s;}
+  @keyframes floatAnimDeep {
+    0% {transform: translateY(0) rotate(-10deg) scale(1);}
+    50% {transform: translateY(-50px) rotate(10deg) scale(1.15);}
+    100% {transform: translateY(0) rotate(-10deg) scale(1);}
+  }
+  .games-container {
+    display:flex; flex-wrap:wrap; justify-content:center; gap:36px;
+    margin:280px 20px 40px 20px; z-index:20; position:relative;
+  }
+  .game-card {
+    background: rgba(255, 105, 180, 0.15);
+    border-radius: 28px; box-shadow: 0 6px 32px #9e520bb0;
+    padding: 32px 28px 24px 28px; width:340px; min-height:360px;
+    display:flex; flex-direction: column; align-items:center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position:relative; perspective:500px; color:#fff;
+  }
+  .game-card:hover {
+    transform: scale(1.07) rotateY(8deg);
+    box-shadow: 0 12px 48px #ff0055cc;
+  }
+  .game-title {
+    font-size:1.6em; color:#570a33; margin-bottom:18px;
+    font-weight:bolder; letter-spacing:1.5px; text-shadow: 0 0 6px #ff66b2;
+  }
+  .game-content {
+    width: 100%; flex: 1; display: flex; flex-direction: column; align-items: center;
+  }
+  .option-btn {
+    background: rgba(255, 20, 147, 0.2);
+    border: 2px solid #30252a;
+    border-radius: 20px;
+    color: #0e0308;
+    font-size: 1.15em;
+    padding: 12px 28px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: background 0.3s, color 0.3s;
+    outline: none;
+    user-select: none;
+    width: 100%;
+    max-width: 260px;
+    box-shadow: 0 0 10px transparent;
+  }
+  .option-btn:hover, .option-btn:focus {
+    background: #552d42;
+    color: #a13030;
+    box-shadow: 0 0 20px #ff66b2;
+  }
+  .result {
+    font-size: 1.3em; margin-top: 16px; font-weight: 700;
+    color: #ff1493; min-height: 36px;
+    text-shadow: 0 0 8px #ff66b2;
+  }
+  .scoreboard {
+    position: absolute; top: 12px; right: 20px;
+    background: #ff149333; padding: 8px 14px;
+    border-radius: 16px; font-size: 1.1em; font-weight: 600;
+    color: #fdf0f7; text-shadow: 0 0 6px #0e0d0d;
+    user-select: none;
+  }
+  @media (max-width: 920px) {
+    .games-container {
+      flex-direction: column;
+      align-items: center;
+      margin-top: 280px;
+    }
+    .game-card {
+      width: 90vw;
+      min-height: 350px;
+    }
+  }
+  /* Instruction Overlay */
+  #instructionOverlay {
+    position: fixed; top:0; left:0; right:0; bottom:0;
+    background: rgba(255, 214, 232, 0.95);
+    backdrop-filter: blur(5px);
+    display: flex; justify-content: center; align-items: center;
+    z-index: 1000;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+  }
+  #instructionBox {
+    background: #fff0f5;
+    border-radius: 20px;
+    padding: 24px 32px;
+    width: 320px;
+    box-shadow: 0 0 32px #ff66b2cc;
+    color: #ff1493;
+    text-align: center;
+    position: relative;
+  }
+  #instructionBox h2 {
+    margin-top: 0;
+    font-weight: bold;
+    font-size: 1.5em;
+    text-shadow: 0 0 8px #ff66b2;
+  }
+  #instructionText {
+    margin: 16px 0;
+    font-size: 1.1em;
+  }
+  #kittyInstructionImg {
+    width: 120px;
+    margin-bottom: 12px;
+    filter: drop-shadow(0 0 10px #ff1493);
+    border-radius: 16px;
+  }
+  #instructionButtons {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-around;
+  }
+  .instr-btn {
+    background: #ff66b2;
+    border: none;
+    border-radius: 14px;
+    padding: 10px 24px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 16px #ff1493;
+    transition: background 0.3s;
+  }
+  .instr-btn:hover {
+    background: #ff1493;
+  }
+</style>
+</head>
+<body>
+<header>Welcome to Kitty Games!</header>
+<nav>
+  <a href="./letsbegin.html">Home</a>
+  <a href="./classroom.html">Classroom</a>
+  <a href="./alphabets.html">Alphabets</a>
+  <a href="./kittylessons.html">Kitty Lessons</a>
+  <a href="./kittystorytime.html">Kitty Storytime</a>
+  <a href="./aboutus.html">About Us</a>
+</nav>
+
+<div class="kitty-3d" id="mainKitty3d" title="Hello Kitty">
+  <img src="https://pngimg.com/d/hello_kitty_PNG18.png" alt="Hello Kitty" />
+</div>
+
+<img class="kitty-float" src="https://pngimg.com/d/hello_kitty_PNG18.png" alt="Kitty Float 1" style="left: 4vw; top: 8vh; animation-delay: 0s;" />
+<img class="kitty-float" src="https://pngimg.com/d/hello_kitty_PNG18.png" alt="Kitty Float 2" style="left: 85vw; top: 25vh; animation-delay: 3s;" />
+<img class="kitty-float" src="https://pngimg.com/d/hello_kitty_PNG18.png" alt="Kitty Float 3" style="left: 28vw; top: 65vh; animation-delay: 5.5s;" />
+<img class="kitty-float" src="https://pngimg.com/d/hello_kitty_PNG18.png" alt="Kitty Float 4" style="left: 62vw; top: 55vh; animation-delay: 7.7s;" />
+<img class="kitty-float" src="https://pngimg.com/d/hello_kitty_PNG18.png" alt="Kitty Float 5" style="left: 15vw; top: 50vh; animation-delay: 1.5s;" />
+<img class="kitty-float" src="https://pngimg.com/d/hello_kitty_PNG18.png" alt="Kitty Float 6" style="left: 75vw; top: 12vh; animation-delay: 4.2s;" />
+
+<div class="games-container" id="gamesContainer">
+  <div class="game-card" id="letterGame">
+    <div class="scoreboard" id="scoreLetter">Score: 0</div>
+    <div class="game-title">Guess the Letter!</div>
+    <div class="game-content">
+      <div id="letterQuestion" style="font-size:1.2em;margin-bottom:12px;"></div>
+      <div id="letterOptions"></div>
+      <div class="result" id="letterResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="colorGame">
+    <div class="scoreboard" id="scoreColor">Score: 0</div>
+    <div class="game-title">Color Match!</div>
+    <div class="game-content">
+      <div id="colorQuestion" style="font-size:1.2em;margin-bottom:12px;"></div>
+      <div id="colorOptions"></div>
+      <div class="result" id="colorResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="bowGame">
+    <div class="scoreboard" id="scoreBow">Score: 0</div>
+    <div class="game-title">Bow Quiz!</div>
+    <div class="game-content">
+      <div id="bowQuestion" style="font-size:1.2em;margin-bottom:12px;"></div>
+      <div id="bowOptions"></div>
+      <div class="result" id="bowResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="rhymeGame">
+    <div class="scoreboard" id="scoreRhyme">Score: 0</div>
+    <div class="game-title">Kitty Rhyme Time!</div>
+    <div class="game-content">
+      <div id="rhymeQuestion" style="font-size:1.2em;margin-bottom:12px;"></div>
+      <div id="rhymeOptions"></div>
+      <div class="result" id="rhymeResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="mathGame">
+    <div class="scoreboard" id="scoreMath">Score: 0</div>
+    <div class="game-title">Kitty Math Fun!</div>
+    <div class="game-content">
+      <div id="mathQuestion" style="font-size:1.2em;margin-bottom:12px;"></div>
+      <div id="mathOptions"></div>
+      <div class="result" id="mathResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="memoryGame">
+    <div class="scoreboard" id="scoreMemory">Score: 0</div>
+    <div class="game-title">Kitty Memory Game!</div>
+    <div class="game-content">
+      <div id="memoryQuestion" style="font-size:1.2em;margin-bottom:12px;"></div>
+      <div id="memoryOptions"></div>
+      <div class="result" id="memoryResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="countingGame">
+    <div class="scoreboard" id="scoreCounting">Score: 0</div>
+    <div class="game-title">Kitty Counting!</div>
+    <div class="game-content">
+      <div id="countingQuestion" style="font-size:1.2em;margin-bottom:18px;"></div>
+      <div id="countingOptions"></div>
+      <div class="result" id="countingResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="additionGame">
+    <div class="scoreboard" id="scoreAddition">Score: 0</div>
+    <div class="game-title">Kitty Addition!</div>
+    <div class="game-content">
+      <div id="additionQuestion" style="font-size:1.2em;margin-bottom:18px;"></div>
+      <div id="additionOptions"></div>
+      <div class="result" id="additionResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="patternGame">
+    <div class="scoreboard" id="scorePattern">Score: 0</div>
+    <div class="game-title">Pattern Recognition!</div>
+    <div class="game-content">
+      <div id="patternQuestion" style="font-size:1.2em;margin-bottom:18px;"></div>
+      <div id="patternOptions"></div>
+      <div class="result" id="patternResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="matchingGame">
+    <div class="scoreboard" id="scoreMatching">Score: 0</div>
+    <div class="game-title">Match the Pair!</div>
+    <div class="game-content">
+      <div id="matchingQuestion" style="font-size:1.2em;margin-bottom:18px;"></div>
+      <div id="matchingOptions"></div>
+      <div class="result" id="matchingResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="timeGame">
+    <div class="scoreboard" id="scoreTime">Score: 0</div>
+    <div class="game-title">Kitty Time Quiz!</div>
+    <div class="game-content">
+      <div id="timeQuestion" style="font-size:1.2em;margin-bottom:18px;"></div>
+      <div id="timeOptions"></div>
+      <div class="result" id="timeResult"></div>
+    </div>
+  </div>
+
+  <div class="game-card" id="shapeGame">
+    <div class="scoreboard" id="scoreShape">Score: 0</div>
+    <div class="game-title">Shape Identification!</div>
+    <div class="game-content">
+      <div id="shapeQuestion" style="font-size:1.2em;margin-bottom:18px;"></div>
+      <div id="shapeOptions"></div>
+      <div class="result" id="shapeResult"></div>
+    </div>
+  </div>
+</div>
+
+
+<div id="instructionOverlay" style="display:none;">
+  <div id="instructionBox">
+    <img src="https://pngimg.com/d/hello_kitty_PNG18.png" alt="Hello Kitty" id="kittyInstructionImg" />
+    <h2 id="instructionTitle">Welcome!</h2>
+    <div id="instructionText">Welcome to Hello Kitty Fun Games! Would you like to see instructions?</div>
+    <div id="instructionButtons">
+      <button class="instr-btn" id="btnYes">Yes</button>
+      <button class="instr-btn" id="btnNo">No</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (() => {
+    
+    const mainKitty = document.getElementById('mainKitty3d');
+    document.addEventListener('mousemove', e => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 40;
+      const y = (e.clientY / window.innerHeight - 0.5) * 40;
+      mainKitty.style.transform =
+        `translateX(-50%) rotateY(${x}deg) rotateX(${-y}deg) scale(1.05)`;
+    });
+
+    const overlay = document.getElementById('instructionOverlay');
+    const titleElem = document.getElementById('instructionTitle');
+    const textElem = document.getElementById('instructionText');
+    const btnYes = document.getElementById('btnYes');
+    const btnNo = document.getElementById('btnNo');
+
+    const instructionsList = [
+      "Guess the correct letter to complete the word!",
+      "Pick Hello Kitty's favorite color from the options!",
+      "Answer questions about Hello Kitty's bow details!",
+      "Match words that rhyme with the given word!",
+      "Solve simple math problems related to Kitty's items!",
+      "Remember the order of Kitty's activities and answer!",
+      "Count the items shown and select the correct number!",
+      "Add Kitty's items and choose the right total!",
+      "Recognize the pattern and select the next item!",
+      "Match pairs based on color or shape!",
+      "Read the clock and choose the correct time!",
+      "Identify the shape from the options!"
+    ];
+
+
+
+    const scores = {
+      letter: { value: 0 }, color: { value: 0 }, bow: { value: 0 }, rhyme: { value: 0 },
+      math: { value: 0 }, memory: { value: 0 }, counting: { value: 0 }, addition: { value: 0 },
+      pattern: { value: 0 }, matching: { value: 0 }, time: { value: 0 }, shape: { value: 0 }
+    };
+    const indices = {
+      letter: { value: 0 }, color: { value: 0 }, bow: { value: 0 }, rhyme: { value: 0 },
+      math: { value: 0 }, memory: { value: 0 }, counting: { value: 0 }, addition: { value: 0 },
+      pattern: { value: 0 }, matching: { value: 0 }, time: { value: 0 }, shape: { value: 0 }
+    };
+
+    const letterGameData = [
+      { question: "H_llo Kitty", options: ["e", "a", "u"], answer: "e" },
+      { question: "Kitty's b_w is pink.", options: ["o", "e", "a"], answer: "o" },
+      { question: "Hello Kit_y loves cake.", options: ["t", "l", "k"], answer: "t" }
+    ];
+    function loadLetterGame() {
+      loadGame(letterGameData, indices.letter, 'letterQuestion', 'letterOptions', 'letterResult', 'scoreLetter', 'checkLetter');
+    }
+    function checkLetter(opt) {
+      checkAnswer(opt, letterGameData, indices.letter, 'letterResult', 'scoreLetter', scores.letter, 'letterQuestion', 'letterOptions', 'checkLetter');
+    }
+    window.checkLetter = checkLetter;
+
+    const colorGameData = [
+      { question: "What is Hello Kitty's favorite color?", options: ["Pink", "Blue", "Yellow"], answer: "Pink" },
+      { question: "Kitty’s nose is which color?", options: ["Yellow", "Red", "Green"], answer: "Yellow" },
+      { question: "Her bow is usually?", options: ["Red", "Green", "Purple"], answer: "Red" }
+    ];
+    function loadColorGame() {
+      loadGame(colorGameData, indices.color, 'colorQuestion', 'colorOptions', 'colorResult', 'scoreColor', 'checkColor');
+    }
+    function checkColor(opt) {
+      checkAnswer(opt, colorGameData, indices.color, 'colorResult', 'scoreColor', scores.color, 'colorQuestion', 'colorOptions', 'checkColor');
+    }
+    window.checkColor = checkColor;
+
+    const bowGameData = [
+      { question: "What does Hello Kitty wear on her head?", options: ["Crown", "Bow", "Hat"], answer: "Bow" },
+      { question: "Kitty’s bow is usually on which side?", options: ["Left", "Right", "Middle"], answer: "Left" },
+      { question: "Is Kitty’s bow big or small?", options: ["Big", "Tiny", "Medium"], answer: "Big" }
+    ];
+    function loadBowGame() {
+      loadGame(bowGameData, indices.bow, 'bowQuestion', 'bowOptions', 'bowResult', 'scoreBow', 'checkBow');
+    }
+    function checkBow(opt) {
+      checkAnswer(opt, bowGameData, indices.bow, 'bowResult', 'scoreBow', scores.bow, 'bowQuestion', 'bowOptions', 'checkBow');
+    }
+    window.checkBow = checkBow;
+
+    const rhymeGameData = [
+      { question: "What rhymes with 'Kitty'?", options: ["Pretty", "Cat", "Hat"], answer: "Pretty" },
+      { question: "What rhymes with 'bow'?", options: ["Go", "Red", "Pink"], answer: "Go" },
+      { question: "What rhymes with 'cake'?", options: ["Lake", "Cat", "Kitty"], answer: "Lake" }
+    ];
+    function loadRhymeGame() {
+      loadGame(rhymeGameData, indices.rhyme, 'rhymeQuestion', 'rhymeOptions', 'rhymeResult', 'scoreRhyme', 'checkRhyme');
+    }
+    function checkRhyme(opt) {
+      checkAnswer(opt, rhymeGameData, indices.rhyme, 'rhymeResult', 'scoreRhyme', scores.rhyme, 'rhymeQuestion', 'rhymeOptions', 'checkRhyme');
+    }
+    window.checkRhyme = checkRhyme;
+
+    const mathGameData = [
+      { question: "Kitty has 2 apples, she gets 1 more. How many apples?", options: ["1", "2", "3"], answer: "3" },
+      { question: "Kitty gives 1 apple from 3 apples. How many left?", options: ["2", "1", "4"], answer: "2" },
+      { question: "Kitty and her friend have 1 apple each. Total apples?", options: ["1", "2", "3"], answer: "2" }
+    ];
+    function loadMathGame() {
+      loadGame(mathGameData, indices.math, 'mathQuestion', 'mathOptions', 'mathResult', 'scoreMath', 'checkMath');
+    }
+    function checkMath(opt) {
+      checkAnswer(opt, mathGameData, indices.math, 'mathResult', 'scoreMath', scores.math, 'mathQuestion', 'mathOptions', 'checkMath');
+    }
+    window.checkMath = checkMath;
+
+    const memoryGameData = [
+      { question: "Kitty puts on a bow, eats cake, and hugs Teddy. Which did she do second?", options: ["Put on bow", "Eat cake", "Hug Teddy"], answer: "Eat cake" },
+      { question: "Kitty went to school, played, then slept. What did she do last?", options: ["Played", "Slept", "School"], answer: "Slept" },
+      { question: "Kitty saw a cat, a dog, and a rabbit. Which did she see first?", options: ["Cat", "Dog", "Rabbit"], answer: "Cat" }
+    ];
+    function loadMemoryGame() {
+      loadGame(memoryGameData, indices.memory, 'memoryQuestion', 'memoryOptions', 'memoryResult', 'scoreMemory', 'checkMemory');
+    }
+    function checkMemory(opt) {
+      checkAnswer(opt, memoryGameData, indices.memory, 'memoryResult', 'scoreMemory', scores.memory, 'memoryQuestion', 'memoryOptions', 'checkMemory');
+    }
+    window.checkMemory = checkMemory;
+
+    const countingGameData = [
+      { question: "Count the pink bows: 🎀🎀🎀", options: ["3", "4", "2"], answer: "3" },
+      { question: "Count the cakes: 🍰🍰", options: ["1", "2", "3"], answer: "2" },
+      { question: "How many kitties? 🐱🐱🐱🐱", options: ["3", "4", "5"], answer: "4" }
+    ];
+    function loadCountingGame() {
+      loadGame(countingGameData, indices.counting, 'countingQuestion', 'countingOptions', 'countingResult', 'scoreCounting', 'checkCounting');
+    }
+    function checkCounting(opt) {
+      checkAnswer(opt, countingGameData, indices.counting, 'countingResult', 'scoreCounting', scores.counting, 'countingQuestion', 'countingOptions', 'checkCounting');
+    }
+    window.checkCounting = checkCounting;
+
+    const additionGameData = [
+      { question: "Kitty has 1 bow 🎀, gets 2 more. How many?", options: ["2", "3", "4"], answer: "3" },
+      { question: "Three cakes 🍰🍰🍰 and 2 more. Total?", options: ["4", "5", "6"], answer: "5" },
+      { question: "Kitty has 5 candies 🍬 loses 3. How many left?", options: ["1", "2", "3"], answer: "2" }
+    ];
+    function loadAdditionGame() {
+      loadGame(additionGameData, indices.addition, 'additionQuestion', 'additionOptions', 'additionResult', 'scoreAddition', 'checkAddition');
+    }
+    function checkAddition(opt) {
+      checkAnswer(opt, additionGameData, indices.addition, 'additionResult', 'scoreAddition', scores.addition, 'additionQuestion', 'additionOptions', 'checkAddition');
+    }
+    window.checkAddition = checkAddition;
+
+    const patternGameData = [
+      { question: "What comes next? 🎀🔥🎀🔥?", options: ["🎀", "🔥", "🐱"], answer: "🎀" },
+      { question: "Find the next: 🍰🍰🎀🎀🍰🍰?", options: ["🎀", "🍰", "🐾"], answer: "🎀" },
+      { question: "Pick the next: 🐱🐾🐱🐾?", options: ["🐱", "🐾", "🎀"], answer: "🐱" }
+    ];
+    function loadPatternGame() {
+      loadGame(patternGameData, indices.pattern, 'patternQuestion', 'patternOptions', 'patternResult', 'scorePattern', 'checkPattern');
+    }
+    function checkPattern(opt) {
+      checkAnswer(opt, patternGameData, indices.pattern, 'patternResult', 'scorePattern', scores.pattern, 'patternQuestion', 'patternOptions', 'checkPattern');
+    }
+    window.checkPattern = checkPattern;
+
+    const matchingGameData = [
+      { question: "Match the same bow color: Pink, Blue, Pink", options: ["Blue", "Pink", "Red"], answer: "Pink" },
+      { question: "Match the kitty face shape: Round, Oval, Round", options: ["Oval", "Square", "Round"], answer: "Round" },
+      { question: "Match the cake type: Chocolate, Strawberry, Strawberry", options: ["Chocolate", "Strawberry", "Vanilla"], answer: "Strawberry" }
+    ];
+    function loadMatchingGame() {
+      loadGame(matchingGameData, indices.matching, 'matchingQuestion', 'matchingOptions', 'matchingResult', 'scoreMatching', 'checkMatching');
+    }
+    function checkMatching(opt) {
+      checkAnswer(opt, matchingGameData, indices.matching, 'matchingResult', 'scoreMatching', scores.matching, 'matchingQuestion', 'matchingOptions', 'checkMatching');
+    }
+    window.checkMatching = checkMatching;
+
+    const timeGameData = [
+      { question: "The clock shows 3:00. What hour is it?", options: ["3", "6", "9"], answer: "3" },
+      { question: "If it's 6:00 now, 3 hours later?", options: ["7", "8", "9"], answer: "9" },
+      { question: "The clock shows 12:00. What hour is it?", options: ["12", "6", "3"], answer: "12" }
+    ];
+    function loadTimeGame() {
+      loadGame(timeGameData, indices.time, 'timeQuestion', 'timeOptions', 'timeResult', 'scoreTime', 'checkTime');
+    }
+    function checkTime(opt) {
+      checkAnswer(opt, timeGameData, indices.time, 'timeResult', 'scoreTime', scores.time, 'timeQuestion', 'timeOptions', 'checkTime');
+    }
+    window.checkTime = checkTime;
+
+    const shapeGameData = [
+      { question: "Which shape is a circle?", options: ["🔺", "⚫", "⬛"], answer: "⚫" },
+      { question: "Which shape is a triangle?", options: ["⬜", "🔺", "⚫"], answer: "🔺" },
+      { question: "Which shape is a square?", options: ["⬛", "⚫", "🔺"], answer: "⬛" }
+    ];
+    function loadShapeGame() {
+      loadGame(shapeGameData, indices.shape, 'shapeQuestion', 'shapeOptions', 'shapeResult', 'scoreShape', 'checkShape');
+    }
+    function checkShape(opt) {
+      checkAnswer(opt, shapeGameData, indices.shape, 'shapeResult', 'scoreShape', scores.shape, 'shapeQuestion', 'shapeOptions', 'checkShape');
+    }
+    window.checkShape = checkShape;
+
+  
+    function loadGame(gameData, indexVar, displayQuestionId, optionsContainerId, resultId, scoreId, checkFn) {
+      const q = gameData[indexVar.value];
+      document.getElementById(displayQuestionId).textContent = q.question;
+      document.getElementById(optionsContainerId).innerHTML = q.options.map(opt =>
+        `<button class="option-btn" onclick="${checkFn}('${opt}')">${opt}</button>`).join('');
+      document.getElementById(resultId).textContent = '';
+    }
+    function checkAnswer(selected, gameData, indexVar, resultId, scoreId, scoreObj, displayQuestionId, optionsContainerId, checkFn) {
+      if (selected === gameData[indexVar.value].answer) {
+        scoreObj.value++;
+        document.getElementById(resultId).textContent = "Correct! 🎉";
+        document.getElementById(scoreId).textContent = `Score: ${scoreObj.value}`;
+        indexVar.value = (indexVar.value + 1) % gameData.length;
+        setTimeout(() => loadGame(gameData, indexVar, displayQuestionId, optionsContainerId, resultId, scoreId, checkFn), 1000);
+      } else {
+        document.getElementById(resultId).textContent = "Try again!";
+      }
+    }
+
+  
+    window.onload = () => {
+      loadLetterGame();
+      loadColorGame();
+      loadBowGame();
+      loadRhymeGame();
+      loadMathGame();
+      loadMemoryGame();
+      loadCountingGame();
+      loadAdditionGame();
+      loadPatternGame();
+      loadMatchingGame();
+      loadTimeGame();
+      loadShapeGame();
+    };
+  })();
+</script>
+
+</body>
+<style>
+  
+  footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    background-color: #b6337199;
+    color: #fff4f9;
+    font-size: 1.1rem;
+    font-weight: 600;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    left: 0;
+    text-shadow: 1px 1px 3px #6d2247;
+    user-select: none;
+  }
+</style>
+<footer>
+    Developed by Aritra Bhattacharya | All Rights Reserved &copy; 2025
+  </footer>
+</html>
